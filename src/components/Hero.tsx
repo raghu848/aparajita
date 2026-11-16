@@ -79,7 +79,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
 
               <div className="relative rounded-2xl overflow-hidden shadow-lg border border-warm-200/80 bg-warm-100 aspect-[4/5]">
                 <img
-                  src="/images/women_western_blazer.jpg"
+                  src="/images/hero_indian_couture.jpg"
                   alt="Aparajita Fashion & Lifestyle Collection"
                   className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
                   onError={(e) => {

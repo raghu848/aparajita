@@ -103,7 +103,7 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
           <div className="group rounded-3xl overflow-hidden bg-white border border-warm-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
             <div className="relative aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-warm-100">
               <img
-                src="/images/bedsheet_luxury_linen.jpg"
+                src="/images/bedsheet_sage_linen.jpg"
                 alt="Silky Sateen Bedding in Warm Bedroom"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 onError={(e) => {

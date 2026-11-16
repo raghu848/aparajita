@@ -25,24 +25,15 @@ export interface Product {
   subCategory: SubCategory;
   categoryLabel: string;
   subCategoryLabel: string;
-  price: number;
-  originalPrice?: number;
-  discountBadge?: string;
-  badge?: string; // "Bestseller" | "New Arrival" | "Trending" | "Pure Cotton"
+  badge?: string; // e.g. "Handcrafted" | "Pure Linen" | "Pure Cotton" | "New Edition"
   rating: number;
   reviewCount: number;
   image: string;
-  secondaryImage?: string;
   description: string;
+  fabric: string;
   sizes?: string[];
   colors?: string[];
   details?: string[];
-}
-
-export interface CartItem extends Product {
-  quantity: number;
-  selectedSize?: string;
-  selectedColor?: string;
 }
 
 export interface CategoryCardInfo {
@@ -53,5 +44,4 @@ export interface CategoryCardInfo {
   description: string;
   image: string;
   itemCount: number;
-  priceStarting: number;
 }

@@ -44,12 +44,9 @@ export const WomenSection: React.FC<WomenSectionProps> = ({ onSelectCategory }) 
                 {/* Subtle Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-warm-900/60 via-transparent to-transparent opacity-60 group-hover:opacity-75 transition-opacity" />
 
-                {/* Item Count & Starting Price Badges */}
+                {/* Designs Count Badge */}
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[11px] font-sans font-medium text-warm-800 shadow-xs">
                   {cat.itemCount} Designs
-                </div>
-                <div className="absolute top-3 right-3 bg-blush-50/95 backdrop-blur-md px-2.5 py-1 rounded-lg text-[11px] font-sans font-bold text-blush-700 shadow-xs border border-blush-200">
-                  From ₹{cat.priceStarting.toLocaleString('en-IN')}
                 </div>
 
                 {/* Overlaid Bottom Title on Image */}
@@ -64,7 +61,7 @@ export const WomenSection: React.FC<WomenSectionProps> = ({ onSelectCategory }) 
               </div>
 
               {/* Card Details Body */}
-              <div className="p-5 flex flex-col justify-between flex-grow space-y-4">
+              <div className="p-5 flex flex-col justify-between flex-grow space-y-4 text-left">
                 <p className="text-xs sm:text-sm text-warm-600 font-sans leading-relaxed">
                   {cat.description}
                 </p>

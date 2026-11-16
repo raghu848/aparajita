@@ -48,7 +48,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           p.name.toLowerCase().includes(q) ||
           p.categoryLabel.toLowerCase().includes(q) ||
           p.subCategoryLabel.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+          p.description.toLowerCase().includes(q) ||
+          p.fabric.toLowerCase().includes(q)
         );
       }).slice(0, 6)
     : [];
@@ -131,13 +132,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           {searchTerm.trim() && (
             <div className="space-y-3 pt-2 border-t border-warm-100">
               <div className="flex items-center justify-between text-xs font-sans text-warm-500">
-                <span>Matching Products ({searchResults.length})</span>
+                <span>Matching Designs ({searchResults.length})</span>
                 {searchResults.length > 0 && (
                   <button
                     onClick={handleSearchSubmit}
                     className="text-blush-600 font-semibold hover:underline flex items-center space-x-1"
                   >
-                    <span>View all results</span>
+                    <span>View all matching</span>
                     <ArrowRight size={12} />
                   </button>
                 )}
@@ -166,10 +167,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                         <h4 className="font-serif text-sm font-medium text-warm-900 truncate">
                           {product.name}
                         </h4>
-                        <div className="flex items-center space-x-2 text-xs font-sans text-warm-600">
-                          <span className="font-bold text-warm-900">
-                            ₹{product.price.toLocaleString('en-IN')}
-                          </span>
+                        <div className="flex items-center space-x-2 text-xs font-sans text-warm-500">
+                          <span>{product.fabric}</span>
+                          <span>·</span>
                           <span className="flex items-center text-amber-500 text-[11px]">
                             <Star size={11} className="fill-amber-400 text-amber-400 mr-0.5" />
                             {product.rating}
@@ -182,7 +182,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 </div>
               ) : (
                 <p className="text-xs text-warm-500 py-4 text-center font-sans">
-                  No matching items found for "{searchTerm}". Try a different keyword.
+                  No matching designs found for "{searchTerm}". Try a different keyword.
                 </p>
               )}
             </div>

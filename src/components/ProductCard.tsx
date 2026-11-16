@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Heart, ShoppingBag, Eye, Star, Check } from 'lucide-react';
+import React from 'react';
+import { Heart, MessageCircle, Eye, Star } from 'lucide-react';
 import { Product } from '../types/store';
+import { STORE_INFO } from '../data/storeData';
 
 interface ProductCardProps {
   product: Product;
   isWishlisted: boolean;
   onToggleWishlist: (product: Product) => void;
-  onAddToCart: (product: Product) => void;
   onQuickView: (product: Product) => void;
 }
 
@@ -14,21 +14,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   isWishlisted,
   onToggleWishlist,
-  onAddToCart,
   onQuickView,
 }) => {
-  const [added, setAdded] = useState(false);
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAddToCart(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
-  };
-
   const handleWishlist = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleWishlist(product);
+  };
+
+  const handleWhatsAppDirect = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const text = encodeURIComponent(
+      `Hello ${STORE_INFO.name}, I would like to inquire about this design:\n- Product: ${product.name}\n- Category: ${product.subCategoryLabel}\n\nPlease share available colors, sizing, and details.`
+    );
+    window.open(`https://wa.me/${STORE_INFO.rawPhone}?text=${text}`, '_blank');
   };
 
   return (
@@ -45,21 +43,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           loading="lazy"
         />
 
-        {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start z-10">
+        {/* Top Badge */}
+        <div className="absolute top-2.5 left-2.5 z-10">
           {product.badge && (
-            <span className="px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs text-[10px] font-sans font-semibold tracking-wide text-warm-800 shadow-2xs border border-warm-200/50">
+            <span className="px-2.5 py-1 rounded-md bg-white/95 backdrop-blur-xs text-[10px] font-sans font-semibold tracking-wide text-warm-800 shadow-2xs border border-warm-200/50">
               {product.badge}
-            </span>
-          )}
-          {product.discountBadge && (
-            <span className="px-2 py-0.5 rounded-md bg-blush-500 text-white text-[10px] font-sans font-bold tracking-wide shadow-2xs">
-              {product.discountBadge}
             </span>
           )}
         </div>
 
-        {/* Top Right Wishlist Button */}
+        {/* Top Right Save to Favorites Button */}
         <button
           onClick={handleWishlist}
           className={`absolute top-2.5 right-2.5 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 ${
@@ -67,8 +60,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               ? 'bg-blush-50 text-blush-600 shadow-xs'
               : 'bg-white/90 text-warm-600 hover:text-blush-600 hover:bg-white'
           }`}
-          aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-          title={isWishlisted ? 'Saved in wishlist' : 'Add to wishlist'}
+          aria-label={isWishlisted ? 'Remove from favorites' : 'Save to favorites'}
+          title={isWishlisted ? 'Saved in favorites' : 'Save to favorites'}
         >
           <Heart size={16} className={isWishlisted ? 'fill-blush-500 text-blush-500' : ''} />
         </button>
@@ -83,13 +76,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full py-2 bg-white/95 hover:bg-white text-warm-900 text-xs font-sans font-semibold rounded-xl shadow-md border border-warm-200 flex items-center justify-center space-x-1.5 transition-colors"
           >
             <Eye size={14} />
-            <span>Quick View</span>
+            <span>View Details</span>
           </button>
         </div>
       </div>
 
       {/* Card Content */}
-      <div className="p-4 flex flex-col justify-between flex-grow space-y-3">
+      <div className="p-4 flex flex-col justify-between flex-grow space-y-3 text-left">
         <div className="space-y-1">
           {/* Subcategory Label & Rating */}
           <div className="flex items-center justify-between text-[11px] text-warm-500 font-sans">
@@ -107,42 +100,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <h3 className="font-serif text-base sm:text-lg font-medium text-warm-900 line-clamp-1 group-hover:text-blush-600 transition-colors">
             {product.name}
           </h3>
+
+          <p className="text-[11px] text-warm-500 font-sans line-clamp-1">
+            Fabric: {product.fabric}
+          </p>
         </div>
 
-        {/* Price & Add to Cart Action */}
-        <div className="pt-2 border-t border-warm-100 flex items-center justify-between">
-          <div className="flex items-baseline space-x-2">
-            <span className="font-sans text-base sm:text-lg font-bold text-warm-900">
-              ₹{product.price.toLocaleString('en-IN')}
-            </span>
-            {product.originalPrice && (
-              <span className="font-sans text-xs text-warm-400 line-through">
-                ₹{product.originalPrice.toLocaleString('en-IN')}
-              </span>
-            )}
-          </div>
-
-          {/* Add to Cart Button */}
+        {/* Action Buttons: View Details & WhatsApp Inquire */}
+        <div className="pt-2 border-t border-warm-100 flex items-center justify-between gap-2">
           <button
-            onClick={handleAdd}
-            className={`px-3 py-1.5 rounded-xl text-xs font-sans font-medium transition-all duration-200 flex items-center space-x-1.5 ${
-              added
-                ? 'bg-[#25D366] text-white'
-                : 'bg-warm-900 hover:bg-warm-800 text-cream-50'
-            }`}
-            aria-label="Add product to cart"
+            onClick={() => onQuickView(product)}
+            className="text-xs font-sans font-medium text-warm-700 hover:text-warm-900 flex items-center space-x-1"
           >
-            {added ? (
-              <>
-                <Check size={13} />
-                <span className="hidden sm:inline">Added</span>
-              </>
-            ) : (
-              <>
-                <ShoppingBag size={13} />
-                <span className="hidden sm:inline">Add</span>
-              </>
-            )}
+            <span>View Details</span>
+          </button>
+
+          <button
+            onClick={handleWhatsAppDirect}
+            className="px-2.5 py-1.5 rounded-lg border border-[#25D366]/40 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] text-xs font-sans font-medium flex items-center space-x-1 transition-colors"
+            title="Inquire directly on WhatsApp"
+          >
+            <MessageCircle size={13} className="text-[#25D366]" />
+            <span>Inquire</span>
           </button>
         </div>
       </div>

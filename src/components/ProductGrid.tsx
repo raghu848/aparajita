@@ -10,7 +10,6 @@ interface ProductGridProps {
   searchQuery: string;
   wishlistIds: string[];
   onToggleWishlist: (product: Product) => void;
-  onAddToCart: (product: Product) => void;
   onQuickView: (product: Product) => void;
   onResetFilters: () => void;
 }
@@ -22,11 +21,10 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   searchQuery,
   wishlistIds,
   onToggleWishlist,
-  onAddToCart,
   onQuickView,
   onResetFilters,
 }) => {
-  const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
+  const [sortBy, setSortBy] = useState<'featured' | 'rating' | 'name'>('featured');
 
   const filteredProducts = useMemo(() => {
     return products
@@ -53,9 +51,8 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         return true;
       })
       .sort((a, b) => {
-        if (sortBy === 'price-asc') return a.price - b.price;
-        if (sortBy === 'price-desc') return b.price - a.price;
         if (sortBy === 'rating') return b.rating - a.rating;
+        if (sortBy === 'name') return a.name.localeCompare(b.name);
         return 0; // featured default
       });
   }, [products, activeMainCategory, activeSubCategory, searchQuery, sortBy]);
@@ -65,14 +62,14 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Controls Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-warm-200/80">
-          <div>
+          <div className="text-left">
             <div className="flex items-center space-x-2">
               <span className="font-serif text-2xl sm:text-3xl text-warm-900 font-normal">
                 {activeSubCategory !== 'all'
                   ? activeSubCategory.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
                   : activeMainCategory !== 'all'
                   ? `${activeMainCategory.toUpperCase()} COLLECTION`
-                  : 'All Store Products'}
+                  : 'All Designs & Textiles'}
               </span>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-cream-200 font-sans text-warm-700 font-medium">
                 {filteredProducts.length} items
@@ -96,7 +93,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           <div className="flex items-center space-x-3 self-end sm:self-auto">
             <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-warm-200 text-xs font-sans text-warm-700 shadow-2xs">
               <SlidersHorizontal size={14} className="text-warm-500" />
-              <label htmlFor="sort-select" className="text-warm-500">Sort by:</label>
+              <label htmlFor="sort-select" className="text-warm-500">Sort:</label>
               <select
                 id="sort-select"
                 value={sortBy}
@@ -104,9 +101,8 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 className="bg-transparent text-warm-900 font-medium focus:outline-none cursor-pointer"
               >
                 <option value="featured">Featured Picks</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
                 <option value="rating">Highest Rated</option>
+                <option value="name">Alphabetical</option>
               </select>
             </div>
 
@@ -132,7 +128,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 product={product}
                 isWishlisted={wishlistIds.includes(product.id)}
                 onToggleWishlist={onToggleWishlist}
-                onAddToCart={onAddToCart}
                 onQuickView={onQuickView}
               />
             ))}
@@ -142,9 +137,9 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             <div className="w-14 h-14 rounded-full bg-cream-200 mx-auto flex items-center justify-center text-warm-500">
               <Sparkles size={24} />
             </div>
-            <h4 className="font-serif text-xl text-warm-900">No products found</h4>
+            <h4 className="font-serif text-xl text-warm-900">No designs found</h4>
             <p className="text-sm text-warm-600 font-sans max-w-sm mx-auto">
-              We couldn't find any products matching your current filters. Try selecting another category or resetting filters.
+              We couldn't find any designs matching your current filters. Try selecting another category or resetting filters.
             </p>
             <button
               onClick={onResetFilters}

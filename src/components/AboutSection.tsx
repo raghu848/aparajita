@@ -12,7 +12,7 @@ export const AboutSection: React.FC = () => {
             <div className="relative mx-auto max-w-md lg:max-w-none">
               <div className="relative rounded-3xl overflow-hidden shadow-md aspect-[4/5] bg-warm-100 border border-warm-200">
                 <img
-                  src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80"
+                  src="/images/couture_handloom_loom.jpg"
                   alt="Aparajita Atelier Craftsmanship"
                   className="w-full h-full object-cover object-center"
                 />

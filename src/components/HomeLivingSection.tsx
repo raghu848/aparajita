@@ -13,7 +13,7 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
           <span className="text-[11px] uppercase tracking-[0.25em] text-warm-500 font-sans font-semibold block">
-            Sanctuary & Sanctuary Textiles
+            Sanctuary & Home Textiles
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-warm-900 tracking-tight font-normal">
             Everyday Luxury for Your Home
@@ -24,12 +24,12 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
         </div>
 
         {/* 2 Featured Lifestyle Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 text-left">
           {/* Card 1: Luxury Towels */}
           <div className="group rounded-3xl overflow-hidden bg-white border border-warm-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
             <div className="relative aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-warm-100">
               <img
-                src="https://images.unsplash.com/photo-1616627547584-bf28cee262db?auto=format&fit=crop&w=1000&q=80"
+                src="/images/towel_white_folded.jpg"
                 alt="Plush Luxury Towels in Modern Bath"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
@@ -67,17 +67,17 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle2 size={15} className="text-blush-500 shrink-0" />
-                  <span>Bath, hand & face sizes</span>
+                  <span>Bath, hand & face sets</span>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-2">
                 <div>
                   <span className="text-[10px] text-warm-500 uppercase tracking-wider block font-sans">
-                    Starting Price
+                    Material Standard
                   </span>
-                  <span className="text-lg font-bold text-warm-900 font-sans">
-                    ₹599 <span className="text-xs text-warm-400 font-normal">/ piece</span>
+                  <span className="text-sm font-semibold text-warm-900 font-sans">
+                    100% Combed Indian Cotton
                   </span>
                 </div>
 
@@ -96,7 +96,7 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
           <div className="group rounded-3xl overflow-hidden bg-white border border-warm-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
             <div className="relative aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-warm-100">
               <img
-                src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80"
+                src="/images/bedsheet_luxury_linen.jpg"
                 alt="Silky Sateen Bedding in Warm Bedroom"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
@@ -141,10 +141,10 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
               <div className="flex items-center justify-between pt-2">
                 <div>
                   <span className="text-[10px] text-warm-500 uppercase tracking-wider block font-sans">
-                    Starting Price
+                    Sizing Available
                   </span>
-                  <span className="text-lg font-bold text-warm-900 font-sans">
-                    ₹1,899 <span className="text-xs text-warm-400 font-normal">/ set</span>
+                  <span className="text-sm font-semibold text-warm-900 font-sans">
+                    Queen · King · Custom Deep Fit
                   </span>
                 </div>
 

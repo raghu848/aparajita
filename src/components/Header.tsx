@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingBag, Heart, Menu, X, ChevronRight, Phone } from 'lucide-react';
+import { Search, Heart, Menu, X, ChevronRight, Phone, MessageCircle } from 'lucide-react';
 import { MainCategory, SubCategory } from '../types/store';
 import { STORE_INFO } from '../data/storeData';
 
 interface HeaderProps {
-  cartCount: number;
   wishlistCount: number;
-  onOpenCart: () => void;
   onOpenSearch: () => void;
   onSelectCategory: (main: MainCategory, sub?: SubCategory) => void;
   activeMainCategory: MainCategory;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  cartCount,
   wishlistCount,
-  onOpenCart,
   onOpenSearch,
   onSelectCategory,
   activeMainCategory,
@@ -47,10 +43,10 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Announcement Bar */}
       <div className="bg-warm-800 text-cream-50 py-1.5 px-4 text-center text-xs font-sans tracking-wide">
         <p className="flex items-center justify-center space-x-2">
-          <span className="text-blush-300 font-medium">✦ Special Launch:</span>
-          <span>Free Express Shipping Across India on Orders Above ₹1,999</span>
+          <span className="text-blush-300 font-medium">✦ Atelier Aparajita:</span>
+          <span>Bespoke Tailoring & Studio Consultations in Ludhiana</span>
           <span className="hidden md:inline text-warm-400">|</span>
-          <span className="hidden md:inline text-warm-300">Direct Studio Support: {STORE_INFO.phone}</span>
+          <span className="hidden md:inline text-warm-300">Direct WhatsApp Inquiry: {STORE_INFO.phone}</span>
         </p>
       </div>
 
@@ -80,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
                 e.preventDefault();
                 handleNavClick('all', 'all', 'hero');
               }}
-              className="flex flex-col group"
+              className="flex flex-col group text-left"
             >
               <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-[0.15em] text-warm-900 group-hover:text-blush-600 transition-colors">
                 {STORE_INFO.name}
@@ -162,19 +158,19 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onOpenSearch}
               className="p-2 text-warm-700 hover:text-warm-900 hover:bg-cream-200/50 rounded-full transition-colors"
-              aria-label="Search products"
-              title="Search store"
+              aria-label="Search collection"
+              title="Search collection"
             >
               <Search size={20} />
             </button>
 
-            {/* Wishlist Link */}
+            {/* Saved Favorites Link */}
             <a
               href="#products"
               onClick={() => handleNavClick('all', 'all', 'products')}
               className="p-2 text-warm-700 hover:text-warm-900 hover:bg-cream-200/50 rounded-full transition-colors relative"
-              aria-label="Wishlist"
-              title="Wishlist"
+              aria-label="Saved Favorites"
+              title="Saved Favorites"
             >
               <Heart size={20} />
               {wishlistCount > 0 && (
@@ -184,20 +180,16 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </a>
 
-            {/* Cart Icon */}
-            <button
-              onClick={onOpenCart}
-              className="p-2 text-warm-800 hover:text-warm-900 hover:bg-cream-200/50 rounded-full transition-colors relative flex items-center"
-              aria-label="Shopping Cart"
-              title="View Cart"
+            {/* WhatsApp Inquire CTA Button */}
+            <a
+              href={STORE_INFO.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366]/20 text-xs font-sans font-medium transition-colors"
             >
-              <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-warm-900 text-cream-50 text-[10px] font-bold rounded-full flex items-center justify-center animate-fade-in">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+              <MessageCircle size={15} className="text-[#25D366]" />
+              <span>Inquire</span>
+            </a>
           </div>
         </div>
       </header>
@@ -216,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Drawer Content */}
         <div
-          className={`absolute top-0 left-0 bottom-0 w-4/5 max-w-sm bg-cream-50 p-6 flex flex-col justify-between shadow-2xl transition-transform duration-300 ${
+          className={`absolute top-0 left-0 bottom-0 w-4/5 max-w-sm bg-cream-50 p-6 flex flex-col justify-between shadow-2xl transition-transform duration-300 text-left ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -293,10 +285,19 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile Footer details */}
-          <div className="pt-6 border-t border-warm-200 space-y-2 text-xs text-warm-600 font-sans">
-            <p className="flex items-center space-x-2">
+          <div className="pt-6 border-t border-warm-200 space-y-3 text-xs text-warm-600 font-sans">
+            <a
+              href={STORE_INFO.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#25D366] text-white font-medium flex items-center justify-center space-x-2"
+            >
+              <MessageCircle size={15} />
+              <span>WhatsApp Inquiry</span>
+            </a>
+            <p className="flex items-center space-x-2 pt-1">
               <Phone size={14} className="text-blush-500" />
-              <a href={`tel:${STORE_INFO.phone}`} className="hover:text-warm-900">
+              <a href={`tel:${STORE_INFO.phone}`} className="hover:text-warm-900 font-medium">
                 {STORE_INFO.phone}
               </a>
             </p>

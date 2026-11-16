@@ -9,12 +9,11 @@ import { ProductGrid } from './components/ProductGrid';
 import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { CartDrawer } from './components/CartDrawer';
 import { SearchModal } from './components/SearchModal';
 import { QuickViewModal } from './components/QuickViewModal';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { PRODUCTS } from './data/storeData';
-import { Product, CartItem, MainCategory, SubCategory } from './types/store';
+import { Product, MainCategory, SubCategory } from './types/store';
 
 export const App: React.FC = () => {
   // Navigation & Category Filtering State
@@ -22,97 +21,28 @@ export const App: React.FC = () => {
   const [activeSubCategory, setActiveSubCategory] = useState<SubCategory>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Cart & Wishlist State with localStorage persistence
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('aparajita_cart');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
+  // Wishlist / Saved Favorites State
   const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('aparajita_wishlist');
+      const saved = localStorage.getItem('aparajita_favorites');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
     }
   });
 
-  // Modals & Drawers
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  // Modals
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
-  // Sync with localStorage
+  // Sync favorites with localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('aparajita_cart', JSON.stringify(cart));
-    } catch (e) {
-      console.error(e);
-    }
-  }, [cart]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('aparajita_wishlist', JSON.stringify(wishlistIds));
+      localStorage.setItem('aparajita_favorites', JSON.stringify(wishlistIds));
     } catch (e) {
       console.error(e);
     }
   }, [wishlistIds]);
-
-  // Cart handlers
-  const handleAddToCart = (
-    product: Product,
-    quantity = 1,
-    size?: string,
-    color?: string
-  ) => {
-    setCart((prevCart) => {
-      const existingIndex = prevCart.findIndex(
-        (item) =>
-          item.id === product.id &&
-          item.selectedSize === size &&
-          item.selectedColor === color
-      );
-
-      if (existingIndex > -1) {
-        const updated = [...prevCart];
-        updated[existingIndex].quantity += quantity;
-        return updated;
-      } else {
-        return [
-          ...prevCart,
-          {
-            ...product,
-            quantity,
-            selectedSize: size || product.sizes?.[0],
-            selectedColor: color || product.colors?.[0],
-          },
-        ];
-      }
-    });
-  };
-
-  const handleUpdateQuantity = (id: string, newQty: number) => {
-    if (newQty <= 0) {
-      handleRemoveFromCart(id);
-      return;
-    }
-    setCart((prevCart) =>
-      prevCart.map((item) => (item.id === id ? { ...item, quantity: newQty } : item))
-    );
-  };
-
-  const handleRemoveFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-  };
-
-  const handleClearCart = () => {
-    setCart([]);
-  };
 
   // Wishlist toggle
   const handleToggleWishlist = (product: Product) => {
@@ -121,13 +51,12 @@ export const App: React.FC = () => {
     );
   };
 
-  // Category selection handler with auto-scroll to Product Grid
+  // Category selection handler with smooth scroll
   const handleSelectCategory = (main: MainCategory, sub: SubCategory = 'all') => {
     setActiveMainCategory(main);
     setActiveSubCategory(sub);
     setSearchQuery('');
 
-    // Smooth scroll to product grid
     setTimeout(() => {
       const el = document.getElementById('products');
       if (el) {
@@ -138,7 +67,6 @@ export const App: React.FC = () => {
 
   // Subcategory click from promotional sections
   const handleSubCategoryClick = (sub: SubCategory) => {
-    // Determine main category
     if (
       ['western-wear', 'ethnic-wear', 'kurta-sets', 'anarkali', 'designer-suits', 'party-wear'].includes(
         sub
@@ -167,15 +95,11 @@ export const App: React.FC = () => {
     setSearchQuery('');
   };
 
-  const totalCartCount = cart.reduce((count, item) => count + item.quantity, 0);
-
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-warm-900 font-sans flex flex-col selection:bg-blush-200 selection:text-warm-900">
       {/* Sticky Header */}
       <Header
-        cartCount={totalCartCount}
         wishlistCount={wishlistIds.length}
-        onOpenCart={() => setIsCartOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         onSelectCategory={handleSelectCategory}
         activeMainCategory={activeMainCategory}
@@ -189,7 +113,7 @@ export const App: React.FC = () => {
           }}
         />
 
-        {/* Category Navigation Bar (Quick jumping between Women, Kids, Home & Living) */}
+        {/* Category Navigation Bar (Effortlessly browse between Women, Kids, Home & Living) */}
         <CategoryNav
           activeMainCategory={activeMainCategory}
           activeSubCategory={activeSubCategory}
@@ -209,7 +133,7 @@ export const App: React.FC = () => {
         {/* Home & Living Section (Luxury Towels, Bedsheets) */}
         <HomeLivingSection onSelectCategory={handleSubCategoryClick} />
 
-        {/* Product Grid & Filtering Catalog */}
+        {/* Product Grid / Catalog Showcase */}
         <ProductGrid
           products={PRODUCTS}
           activeMainCategory={activeMainCategory}
@@ -217,7 +141,6 @@ export const App: React.FC = () => {
           searchQuery={searchQuery}
           wishlistIds={wishlistIds}
           onToggleWishlist={handleToggleWishlist}
-          onAddToCart={(p) => handleAddToCart(p, 1)}
           onQuickView={(p) => setQuickViewProduct(p)}
           onResetFilters={handleResetFilters}
         />
@@ -234,21 +157,6 @@ export const App: React.FC = () => {
 
       {/* Floating WhatsApp Action */}
       <WhatsAppButton />
-
-      {/* Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cart={cart}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveFromCart}
-        onClearCart={handleClearCart}
-        onExploreProducts={() => {
-          handleResetFilters();
-          const el = document.getElementById('products');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-      />
 
       {/* Search Modal */}
       <SearchModal
@@ -267,7 +175,6 @@ export const App: React.FC = () => {
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
-        onAddToCart={handleAddToCart}
         isWishlisted={quickViewProduct ? wishlistIds.includes(quickViewProduct.id) : false}
         onToggleWishlist={handleToggleWishlist}
       />

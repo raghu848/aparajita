@@ -16,7 +16,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
             {/* Subtle Eyebrow Badge */}
             <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-blush-100/80 border border-blush-200 text-blush-600 text-xs font-sans font-medium">
               <Sparkles size={14} />
-              <span>New Season Collection 2026</span>
+              <span>Bespoke Edition 2026</span>
             </div>
 
             {/* Short Headline */}
@@ -27,7 +27,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
 
             {/* Small Supporting Text */}
             <p className="font-sans text-base sm:text-lg text-warm-600 max-w-xl leading-relaxed">
-              Discover curated women’s ethnic & contemporary fashion, playful and gentle kids wear, and premium home textiles tailored for modern living.
+              Explore our curated portfolio of graceful women’s couture, gentle skin-safe kids essentials, and premium home textiles crafted for lasting comfort.
             </p>
 
             {/* CTA Buttons */}
@@ -36,7 +36,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
                 onClick={() => onShopNow('all')}
                 className="px-8 py-3.5 rounded-xl bg-warm-900 text-cream-50 hover:bg-warm-800 font-sans text-sm font-medium tracking-wide shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center space-x-2 group"
               >
-                <span>Shop Now</span>
+                <span>View Collection</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
 
@@ -62,12 +62,12 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
                 <span className="text-[11px] text-warm-500 font-sans block">100% Cotton & Silks</span>
               </div>
               <div className="space-y-0.5">
-                <span className="text-xs font-semibold text-warm-900 font-sans block">Free Shipping</span>
-                <span className="text-[11px] text-warm-500 font-sans block">On orders above ₹1,999</span>
+                <span className="text-xs font-semibold text-warm-900 font-sans block">Custom Fittings</span>
+                <span className="text-[11px] text-warm-500 font-sans block">Bespoke Tailoring Support</span>
               </div>
               <div className="space-y-0.5">
-                <span className="text-xs font-semibold text-warm-900 font-sans block">Direct Atelier</span>
-                <span className="text-[11px] text-warm-500 font-sans block">Studio in Ludhiana</span>
+                <span className="text-xs font-semibold text-warm-900 font-sans block">Studio Location</span>
+                <span className="text-[11px] text-warm-500 font-sans block">Sector 32A, Ludhiana</span>
               </div>
             </div>
           </div>
@@ -75,29 +75,27 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
           {/* Right Image Composition (5 cols on desktop) */}
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Background soft decorative shape */}
               <div className="absolute -inset-2 bg-gradient-to-tr from-blush-100 via-beige-100 to-cream-200 rounded-3xl -rotate-1 transform -z-10" />
 
-              {/* Main Lifestyle Image */}
               <div className="relative rounded-2xl overflow-hidden shadow-lg border border-warm-200/80 bg-warm-100 aspect-[4/5]">
                 <img
-                  src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80"
+                  src="/images/women_western_blazer.jpg"
                   alt="Aparajita Fashion & Lifestyle Collection"
                   className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
                 />
 
-                {/* Subtle Floating Card Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md p-3.5 rounded-xl border border-warm-200/60 shadow-sm flex items-center justify-between">
+                {/* Elegant Overlay */}
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-warm-200/60 shadow-sm flex items-center justify-between">
                   <div>
                     <span className="text-[10px] uppercase tracking-wider text-warm-500 font-sans font-semibold block">
-                      Curated For You
+                      Curated In Ludhiana
                     </span>
                     <span className="font-serif text-sm font-semibold text-warm-900 block">
                       Festive Suits & Linen Bedding
                     </span>
                   </div>
-                  <span className="text-xs font-sans font-bold text-blush-600 px-2.5 py-1 bg-blush-50 rounded-lg border border-blush-200">
-                    From ₹499
+                  <span className="text-xs font-sans font-semibold text-blush-600 px-2.5 py-1 bg-blush-50 rounded-lg border border-blush-200">
+                    Atelier Quality
                   </span>
                 </div>
               </div>

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { X, Star, ShoppingBag, MessageCircle, Check, Heart, ShieldCheck } from 'lucide-react';
+import { X, Star, MessageCircle, Heart, ShieldCheck, Check, Sparkles } from 'lucide-react';
 import { Product } from '../types/store';
 import { STORE_INFO } from '../data/storeData';
 
 interface QuickViewModalProps {
   product: Product | null;
   onClose: () => void;
-  onAddToCart: (product: Product, quantity: number, size?: string, color?: string) => void;
   isWishlisted: boolean;
   onToggleWishlist: (product: Product) => void;
 }
@@ -14,7 +13,6 @@ interface QuickViewModalProps {
 export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   product,
   onClose,
-  onAddToCart,
   isWishlisted,
   onToggleWishlist,
 }) => {
@@ -22,18 +20,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes?.[0] || '');
   const [selectedColor, setSelectedColor] = useState<string>(product.colors?.[0] || '');
-  const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
 
-  const handleAdd = () => {
-    onAddToCart(product, quantity, selectedSize, selectedColor);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
-  const getWhatsAppOrderUrl = () => {
+  const getWhatsAppInquiryUrl = () => {
     const text = encodeURIComponent(
-      `Hello ${STORE_INFO.name},\n\nI would like to order this product:\n- Product: ${product.name}\n- Price: ₹${product.price.toLocaleString('en-IN')}\n- Quantity: ${quantity}${selectedSize ? `\n- Size: ${selectedSize}` : ''}${selectedColor ? `\n- Color: ${selectedColor}` : ''}\n\nPlease confirm availability and sharing delivery details.`
+      `Hello ${STORE_INFO.name},\n\nI would like to inquire about this design:\n- Product: ${product.name}\n- Category: ${product.subCategoryLabel}${selectedSize ? `\n- Size preference: ${selectedSize}` : ''}${selectedColor ? `\n- Color preference: ${selectedColor}` : ''}\n\nPlease share availability, customization options, and studio fitting details.`
     );
     return `https://wa.me/${STORE_INFO.rawPhone}?text=${text}`;
   };
@@ -65,9 +55,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               alt={product.name}
               className="w-full h-full object-cover object-top"
             />
-            {product.discountBadge && (
-              <span className="absolute top-3 left-3 px-2.5 py-1 bg-blush-500 text-white text-xs font-bold font-sans rounded-lg shadow-sm">
-                {product.discountBadge}
+            {product.badge && (
+              <span className="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-xs text-xs font-semibold font-sans rounded-lg shadow-sm text-warm-800 border border-warm-200">
+                {product.badge}
               </span>
             )}
           </div>
@@ -101,21 +91,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               </div>
             </div>
 
-            {/* Price */}
-            <div className="flex items-baseline space-x-3 pb-3 border-b border-warm-100">
-              <span className="font-sans text-2xl sm:text-3xl font-bold text-warm-900">
-                ₹{product.price.toLocaleString('en-IN')}
-              </span>
-              {product.originalPrice && (
-                <span className="font-sans text-sm text-warm-400 line-through">
-                  ₹{product.originalPrice.toLocaleString('en-IN')}
-                </span>
-              )}
-              {product.discountBadge && (
-                <span className="text-xs font-semibold text-blush-600 px-2 py-0.5 bg-blush-50 rounded border border-blush-200">
-                  Save {product.discountBadge}
-                </span>
-              )}
+            {/* Fabric Highlight Badge */}
+            <div className="p-3 bg-cream-50 rounded-xl border border-warm-200/60 flex items-center justify-between text-xs font-sans">
+              <span className="text-warm-500">Fabric Composition:</span>
+              <span className="font-semibold text-warm-900">{product.fabric}</span>
             </div>
 
             {/* Description */}
@@ -127,7 +106,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             {product.sizes && product.sizes.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-sans text-warm-700">
-                  <span className="font-semibold">Select Size:</span>
+                  <span className="font-semibold">Sizing / Fit Options:</span>
                   <span className="text-warm-500">{selectedSize}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -184,49 +163,19 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               </div>
             )}
 
-            {/* Quantity & CTA Buttons */}
+            {/* Inquiry CTA Buttons */}
             <div className="pt-4 border-t border-warm-100 space-y-3">
-              <div className="flex items-center space-x-4">
-                {/* Quantity Box */}
-                <div className="flex items-center border border-warm-200 rounded-xl bg-cream-50">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-warm-600 hover:text-warm-900 font-bold"
-                  >
-                    -
-                  </button>
-                  <span className="px-3 text-sm font-semibold font-sans text-warm-900">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 text-warm-600 hover:text-warm-900 font-bold"
-                  >
-                    +
-                  </button>
-                </div>
-
-                {/* Add to Cart Button */}
-                <button
-                  onClick={handleAdd}
-                  className={`flex-1 py-3 px-6 rounded-xl font-sans text-xs uppercase tracking-wider font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm ${
-                    added
-                      ? 'bg-[#25D366] text-white'
-                      : 'bg-warm-900 hover:bg-warm-800 text-cream-50'
-                  }`}
+              <div className="flex items-center space-x-3">
+                {/* Direct WhatsApp Inquiry Button */}
+                <a
+                  href={getWhatsAppInquiryUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-3 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-sans text-xs uppercase tracking-wider font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm"
                 >
-                  {added ? (
-                    <>
-                      <Check size={16} />
-                      <span>Added to Bag</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag size={16} />
-                      <span>Add to Bag</span>
-                    </>
-                  )}
-                </button>
+                  <MessageCircle size={16} />
+                  <span>Inquire via WhatsApp</span>
+                </a>
 
                 {/* Wishlist Button */}
                 <button
@@ -236,22 +185,21 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                       ? 'bg-blush-50 border-blush-300 text-blush-600'
                       : 'border-warm-200 text-warm-600 hover:border-warm-400'
                   }`}
-                  aria-label="Wishlist"
-                  title="Toggle wishlist"
+                  aria-label="Save to favorites"
+                  title="Save to favorites"
                 >
                   <Heart size={18} className={isWishlisted ? 'fill-blush-500 text-blush-500' : ''} />
                 </button>
               </div>
 
-              {/* Direct WhatsApp Order Button */}
+              {/* Studio visit link */}
               <a
-                href={getWhatsAppOrderUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2.5 px-4 rounded-xl border border-[#25D366]/40 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] text-xs font-sans font-medium tracking-wide flex items-center justify-center space-x-2 transition-colors"
+                href="#contact-section"
+                onClick={onClose}
+                className="w-full py-2.5 px-4 rounded-xl border border-warm-300 hover:border-warm-900 text-warm-800 text-xs font-sans font-medium tracking-wide flex items-center justify-center space-x-1.5 transition-colors"
               >
-                <MessageCircle size={15} className="text-[#25D366]" />
-                <span>Instant Order via WhatsApp (+91 {STORE_INFO.rawPhone})</span>
+                <Sparkles size={14} className="text-blush-500" />
+                <span>Book Fitting or Studio Visit in Ludhiana</span>
               </a>
             </div>
 
@@ -259,10 +207,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             <div className="pt-1 flex items-center justify-center space-x-4 text-[11px] text-warm-500 font-sans">
               <span className="flex items-center space-x-1">
                 <ShieldCheck size={13} className="text-warm-400" />
-                <span>Genuine Quality Guarantee</span>
+                <span>Direct Atelier Craftsmanship</span>
               </span>
               <span>·</span>
-              <span>Easy 7-Day Exchange Support</span>
+              <span>Custom Sizing & Trial Support</span>
             </div>
           </div>
         </div>

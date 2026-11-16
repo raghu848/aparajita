@@ -45,15 +45,11 @@ export const KidsSection: React.FC<KidsSectionProps> = ({ onSelectCategory }) =>
 
                 {/* Badge */}
                 <div className="absolute top-3 left-3 bg-white/95 px-2.5 py-1 rounded-lg text-[11px] font-sans font-medium text-warm-800 shadow-xs">
-                  {cat.itemCount} Items
-                </div>
-
-                <div className="absolute top-3 right-3 bg-warm-900/80 text-cream-50 px-2 py-0.5 rounded text-[10px] font-sans font-semibold tracking-wide">
-                  From ₹{cat.priceStarting}
+                  {cat.itemCount} Designs
                 </div>
 
                 {/* Bottom Header on Image */}
-                <div className="absolute bottom-3 left-3 right-3 text-white">
+                <div className="absolute bottom-3 left-3 right-3 text-white text-left">
                   <span className="text-[10px] uppercase tracking-wider text-blush-200 font-sans block">
                     {cat.tagline}
                   </span>
@@ -64,14 +60,14 @@ export const KidsSection: React.FC<KidsSectionProps> = ({ onSelectCategory }) =>
               </div>
 
               {/* Text Description & CTA */}
-              <div className="p-4 flex flex-col justify-between flex-grow space-y-3">
+              <div className="p-4 flex flex-col justify-between flex-grow space-y-3 text-left">
                 <p className="text-xs text-warm-600 font-sans leading-relaxed line-clamp-2">
                   {cat.description}
                 </p>
 
                 <div className="pt-2 border-t border-warm-200/60 flex items-center justify-between">
                   <span className="text-xs font-sans font-semibold text-warm-900 group-hover:text-blush-600 transition-colors">
-                    Shop Now
+                    Explore Collection
                   </span>
                   <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-warm-700 group-hover:text-blush-600 group-hover:translate-x-1 transition-all shadow-2xs">
                     <ArrowRight size={13} />

@@ -82,6 +82,13 @@ export const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
                   src="/images/women_western_blazer.jpg"
                   alt="Aparajita Fashion & Lifestyle Collection"
                   className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = '/images/couture_saree_royal.jpg';
+                    }
+                  }}
                 />
 
                 {/* Elegant Overlay */}

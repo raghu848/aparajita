@@ -41,6 +41,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           alt={product.name}
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
           loading="lazy"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (!target.dataset.triedFallback) {
+              target.dataset.triedFallback = 'true';
+              if (product.subCategory === 'towels' || product.subCategory === 'kids-towels') {
+                target.src = '/images/towel_white_folded.jpg';
+              } else if (product.subCategory === 'bedsheets' || product.subCategory === 'kids-bedsheets') {
+                target.src = '/images/bedsheet_hotel_white.jpg';
+              } else if (product.subCategory === 'cardigans') {
+                target.src = '/images/kids_cardigan_wool.jpg';
+              } else if (product.mainCategory === 'kids') {
+                target.src = '/images/kids_dress_cotton.jpg';
+              } else if (product.subCategory === 'western-wear') {
+                target.src = '/images/women_western_blazer.jpg';
+              } else {
+                target.src = '/images/couture_saree_royal.jpg';
+              }
+            }
+          }}
         />
 
         {/* Top Badge */}

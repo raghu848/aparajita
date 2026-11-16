@@ -15,6 +15,13 @@ export const AboutSection: React.FC = () => {
                   src="/images/couture_handloom_loom.jpg"
                   alt="Aparajita Atelier Craftsmanship"
                   className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = '/images/couture_saree_royal.jpg';
+                    }
+                  }}
                 />
               </div>
 

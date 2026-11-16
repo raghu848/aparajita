@@ -54,6 +54,25 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               src={product.image}
               alt={product.name}
               className="w-full h-full object-cover object-top"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = 'true';
+                  if (product.subCategory === 'towels' || product.subCategory === 'kids-towels') {
+                    target.src = '/images/towel_white_folded.jpg';
+                  } else if (product.subCategory === 'bedsheets' || product.subCategory === 'kids-bedsheets') {
+                    target.src = '/images/bedsheet_hotel_white.jpg';
+                  } else if (product.subCategory === 'cardigans') {
+                    target.src = '/images/kids_cardigan_wool.jpg';
+                  } else if (product.mainCategory === 'kids') {
+                    target.src = '/images/kids_dress_cotton.jpg';
+                  } else if (product.subCategory === 'western-wear') {
+                    target.src = '/images/women_western_blazer.jpg';
+                  } else {
+                    target.src = '/images/couture_saree_royal.jpg';
+                  }
+                }
+              }}
             />
             {product.badge && (
               <span className="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-xs text-xs font-semibold font-sans rounded-lg shadow-sm text-warm-800 border border-warm-200">

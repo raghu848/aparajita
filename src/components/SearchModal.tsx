@@ -159,6 +159,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                         src={product.image}
                         alt={product.name}
                         className="w-12 h-14 object-cover object-top rounded-lg bg-warm-100 border border-warm-200"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (!target.dataset.triedFallback) {
+                            target.dataset.triedFallback = 'true';
+                            if (product.subCategory === 'towels' || product.subCategory === 'kids-towels') {
+                              target.src = '/images/towel_white_folded.jpg';
+                            } else if (product.subCategory === 'bedsheets' || product.subCategory === 'kids-bedsheets') {
+                              target.src = '/images/bedsheet_hotel_white.jpg';
+                            } else if (product.subCategory === 'cardigans') {
+                              target.src = '/images/kids_cardigan_wool.jpg';
+                            } else {
+                              target.src = '/images/women_western_blazer.jpg';
+                            }
+                          }
+                        }}
                       />
                       <div className="flex-1 min-w-0">
                         <span className="text-[10px] uppercase tracking-wider text-warm-400 font-sans block">

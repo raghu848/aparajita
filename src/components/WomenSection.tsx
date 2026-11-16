@@ -39,6 +39,13 @@ export const WomenSection: React.FC<WomenSectionProps> = ({ onSelectCategory }) 
                   src={cat.image}
                   alt={cat.title}
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = '/images/couture_saree_royal.jpg';
+                    }
+                  }}
                 />
 
                 {/* Subtle Gradient Overlay */}

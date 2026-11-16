@@ -39,6 +39,13 @@ export const KidsSection: React.FC<KidsSectionProps> = ({ onSelectCategory }) =>
                   src={cat.image}
                   alt={cat.title}
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = '/images/kids_dress_cotton.jpg';
+                    }
+                  }}
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-warm-900/65 via-warm-900/10 to-transparent" />

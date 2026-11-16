@@ -32,6 +32,13 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
                 src="/images/towel_white_folded.jpg"
                 alt="Plush Luxury Towels in Modern Bath"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = 'true';
+                    target.src = '/images/towel_white_folded.jpg';
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-warm-900/60 via-transparent to-transparent" />
               <div className="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-xs font-sans font-semibold text-warm-900 shadow-xs">
@@ -99,6 +106,13 @@ export const HomeLivingSection: React.FC<HomeLivingSectionProps> = ({ onSelectCa
                 src="/images/bedsheet_luxury_linen.jpg"
                 alt="Silky Sateen Bedding in Warm Bedroom"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = 'true';
+                    target.src = '/images/bedsheet_hotel_white.jpg';
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-warm-900/60 via-transparent to-transparent" />
               <div className="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-xs font-sans font-semibold text-warm-900 shadow-xs">

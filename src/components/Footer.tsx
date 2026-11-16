@@ -1,56 +1,182 @@
 import React, { useState } from 'react';
-import { ArrowUp, ArrowRight, Check, MapPin, Phone, Mail, MessageCircle, ExternalLink } from 'lucide-react';
-import { scrollToSection } from '../utils/lenis';
-import { ATELIER_CONTACT } from '../data/coutureData';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  MessageCircle,
+  ExternalLink,
+  Instagram,
+  Facebook,
+  ArrowUp,
+  Check,
+  ArrowRight,
+} from 'lucide-react';
+import { STORE_INFO } from '../data/storeData';
+import { MainCategory, SubCategory } from '../types/store';
 
-export const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
+interface FooterProps {
+  onSelectCategory: (main: MainCategory, sub?: SubCategory) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (newsletterEmail) {
       setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 4000);
-      setEmail('');
+      setTimeout(() => {
+        setSubscribed(false);
+        setNewsletterEmail('');
+      }, 4000);
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="w-full bg-charcoal-noir text-ivory border-t border-ivory/10 pt-20 pb-12 select-none">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Top Colophon Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-16 border-b border-ivory/10">
-          {/* Brand & Mission (4 cols) */}
-          <div className="md:col-span-4 space-y-4">
-            <span className="font-editorial text-2xl md:text-3xl tracking-[0.3em] text-ivory uppercase font-light">
-              APARAJITA
-            </span>
-            <span className="block text-[9px] uppercase tracking-[0.45em] text-gold font-sans">
-              Haute Couture · Studio & Atelier
-            </span>
-            <p className="font-serif italic text-sm text-ivory/70 max-w-sm leading-relaxed pt-1">
-              The art of slow, timeless Indian bridal and couture storytelling. Dedicated to the preservation of vanishing embroidery traditions and architectural female silhouettes.
+    <footer className="w-full bg-warm-900 text-cream-100 font-sans pt-16 pb-10 border-t border-warm-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main 5-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14 border-b border-warm-800 text-left">
+          {/* Col 1: Brand & Bio (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="space-y-1">
+              <span className="font-serif text-2xl font-bold tracking-widest text-cream-50 block">
+                {STORE_INFO.name}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-blush-300 font-sans block">
+                {STORE_INFO.tagline}
+              </span>
+            </div>
+
+            <p className="text-xs text-warm-300 leading-relaxed max-w-sm">
+              Curated everyday elegance and home comfort. Specializing in women's western & heirloom ethnic wear, gentle organic kids essentials, and premium bed & bath textiles.
             </p>
+
+            {/* Newsletter Mini Form */}
+            <div className="pt-2 space-y-2">
+              <span className="text-[11px] uppercase tracking-wider text-warm-300 font-medium block">
+                Join Our Private Circle
+              </span>
+              <form onSubmit={handleSubscribe} className="flex max-w-sm">
+                <input
+                  type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="bg-warm-800 border border-warm-700 px-3 py-2 text-xs text-cream-100 placeholder:text-warm-500 rounded-l-lg focus:outline-none focus:border-blush-400 w-full"
+                />
+                <button
+                  type="submit"
+                  className="bg-blush-500 hover:bg-blush-600 text-white px-3.5 py-2 rounded-r-lg text-xs font-medium transition-colors flex items-center justify-center shrink-0"
+                  aria-label="Subscribe"
+                >
+                  {subscribed ? <Check size={14} /> : <ArrowRight size={14} />}
+                </button>
+              </form>
+              {subscribed && (
+                <span className="text-[10px] text-blush-300 block">
+                  ✦ Thank you for joining our private registry.
+                </span>
+              )}
+            </div>
           </div>
 
-          {/* Flagship Studio & Contact (4 cols) */}
-          <div className="md:col-span-4 space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-sans block mb-2">
-              Flagship Studio & Contact
-            </span>
-            <div className="space-y-2.5 text-xs text-ivory/75 font-sans">
+          {/* Col 2: Women Categories (2 cols) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="font-serif text-sm font-semibold text-cream-50 tracking-wider uppercase">
+              Women's Wear
+            </h4>
+            <ul className="space-y-2 text-xs text-warm-300">
+              {[
+                { label: 'Western Wear', sub: 'western-wear' },
+                { label: 'Ethnic Wear', sub: 'ethnic-wear' },
+                { label: 'Kurta Sets', sub: 'kurta-sets' },
+                { label: 'Anarkali Sets', sub: 'anarkali' },
+                { label: 'Designer Suits', sub: 'designer-suits' },
+                { label: 'Party Wear Suits', sub: 'party-wear' },
+              ].map((item) => (
+                <li key={item.sub}>
+                  <button
+                    onClick={() => onSelectCategory('women', item.sub as any)}
+                    className="hover:text-blush-300 transition-colors text-left"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 3: Kids & Home (2 cols) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="space-y-2">
+              <h4 className="font-serif text-sm font-semibold text-cream-50 tracking-wider uppercase">
+                Kids Collection
+              </h4>
+              <ul className="space-y-2 text-xs text-warm-300">
+                {[
+                  { label: 'Kids Wear', sub: 'kids-wear' },
+                  { label: 'Cardigans & Knits', sub: 'cardigans' },
+                  { label: 'Kids Towels', sub: 'kids-towels' },
+                  { label: 'Kids Bedsheets', sub: 'kids-bedsheets' },
+                ].map((item) => (
+                  <li key={item.sub}>
+                    <button
+                      onClick={() => onSelectCategory('kids', item.sub as any)}
+                      className="hover:text-blush-300 transition-colors text-left"
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-2 pt-2">
+              <h4 className="font-serif text-sm font-semibold text-cream-50 tracking-wider uppercase">
+                Home & Living
+              </h4>
+              <ul className="space-y-2 text-xs text-warm-300">
+                {[
+                  { label: 'Luxury Towels', sub: 'towels' },
+                  { label: 'Premium Bedsheets', sub: 'bedsheets' },
+                ].map((item) => (
+                  <li key={item.sub}>
+                    <button
+                      onClick={() => onSelectCategory('home', item.sub as any)}
+                      className="hover:text-blush-300 transition-colors text-left"
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Col 4: Studio Contact Information (4 cols) */}
+          <div className="lg:col-span-4 space-y-3">
+            <h4 className="font-serif text-sm font-semibold text-cream-50 tracking-wider uppercase">
+              Studio & Boutique Contact
+            </h4>
+            <div className="space-y-2.5 text-xs text-warm-300">
               <div className="flex items-start space-x-2.5">
-                <MapPin size={15} className="text-gold shrink-0 mt-0.5" />
+                <MapPin size={15} className="text-blush-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <p className="leading-relaxed font-serif italic text-ivory/90">
-                    {ATELIER_CONTACT.address}
+                  <p className="leading-relaxed text-cream-200">
+                    {STORE_INFO.address}
                   </p>
                   <a
-                    href={ATELIER_CONTACT.mapsUrl}
+                    href={STORE_INFO.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center space-x-1 text-[11px] text-gold hover:text-gold-light underline tracking-wider font-sans uppercase not-italic"
+                    className="inline-flex items-center space-x-1 text-[11px] text-blush-300 hover:text-blush-200 underline"
                   >
                     <span>Open in Google Maps</span>
                     <ExternalLink size={11} />
@@ -59,121 +185,89 @@ export const Footer: React.FC = () => {
               </div>
 
               <div className="flex items-center space-x-2.5 pt-1">
-                <Phone size={14} className="text-gold shrink-0" />
-                <a
-                  href={`tel:${ATELIER_CONTACT.phone}`}
-                  className="hover:text-gold transition-colors tracking-wider"
-                >
-                  {ATELIER_CONTACT.phone}
+                <Phone size={14} className="text-blush-400 shrink-0" />
+                <a href={`tel:${STORE_INFO.phone}`} className="hover:text-cream-50 transition-colors">
+                  {STORE_INFO.phone}
                 </a>
               </div>
 
               <div className="flex items-center space-x-2.5">
                 <MessageCircle size={14} className="text-[#25D366] shrink-0" />
                 <a
-                  href={ATELIER_CONTACT.whatsappLink}
+                  href={STORE_INFO.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-gold transition-colors tracking-wider flex items-center space-x-1"
+                  className="hover:text-cream-50 transition-colors"
                 >
-                  <span>WhatsApp: {ATELIER_CONTACT.whatsapp}</span>
-                  <ExternalLink size={10} className="text-ivory/40" />
+                  WhatsApp: +91 {STORE_INFO.rawPhone}
                 </a>
               </div>
 
               <div className="flex items-center space-x-2.5">
-                <Mail size={14} className="text-gold shrink-0" />
-                <a
-                  href={ATELIER_CONTACT.emailLink}
-                  className="hover:text-gold transition-colors tracking-wider lowercase"
-                >
-                  {ATELIER_CONTACT.email}
+                <Mail size={14} className="text-blush-400 shrink-0" />
+                <a href={`mailto:${STORE_INFO.email}`} className="hover:text-cream-50 transition-colors">
+                  {STORE_INFO.email}
                 </a>
               </div>
             </div>
-          </div>
 
-          {/* Navigation Links (2 cols) */}
-          <div className="md:col-span-2 space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-sans block mb-2">
-              Atelier Directory
-            </span>
-            <ul className="space-y-2 text-xs text-ivory/70 font-sans tracking-wider">
-              {['Collection', 'Craftsmanship', 'The Signature', 'Lookbook', 'Appointments'].map((link, i) => (
-                <li key={i}>
-                  <a
-                    href="#collection"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection('#collection');
-                    }}
-                    className="hover:text-gold transition-colors duration-300"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Private Newsletter Invitation (2 cols) */}
-          <div className="md:col-span-2 space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-sans block mb-2">
-              Private Previews
-            </span>
-            <p className="font-serif italic text-xs text-ivory/70 leading-relaxed">
-              Receive private invitations to our forthcoming trunk shows.
-            </p>
-
-            <form onSubmit={handleSubscribe} className="pt-1 flex flex-col space-y-2">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email"
-                className="w-full bg-charcoal-800 border border-ivory/15 px-3 py-2 text-xs text-ivory placeholder:text-ivory/30 outline-none focus:border-gold rounded-sm"
-              />
-              <button
-                type="submit"
-                className="w-full py-2 bg-gold text-charcoal-900 text-[10px] uppercase tracking-widest font-sans font-medium rounded-sm hover:bg-gold-light transition-colors flex items-center justify-center space-x-1"
-                aria-label="Subscribe"
+            {/* Social Icons */}
+            <div className="pt-2 flex items-center space-x-3 text-warm-400">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-warm-800 hover:bg-blush-500 hover:text-white flex items-center justify-center transition-colors"
+                aria-label="Instagram"
               >
-                <span>{subscribed ? 'Subscribed' : 'Join Registry'}</span>
-                {subscribed ? <Check size={12} /> : <ArrowRight size={12} />}
-              </button>
-            </form>
+                <Instagram size={14} />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-warm-800 hover:bg-blush-500 hover:text-white flex items-center justify-center transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook size={14} />
+              </a>
+              <a
+                href={STORE_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-warm-800 hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-colors"
+                aria-label="WhatsApp"
+              >
+                <MessageCircle size={14} />
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Studio Location & Consultation Bar */}
-        <div className="py-8 flex flex-wrap items-center justify-between gap-4 text-[10px] uppercase tracking-[0.3em] text-ivory/50 font-sans border-b border-ivory/10">
-          <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2">
-            <span className="text-gold font-medium">Flagship Studio: Ludhiana, Punjab</span>
-            <span>·</span>
-            <span>Private Consultations by Appointment</span>
-            <span>·</span>
-            <span>Worldwide Delivery & Discretion</span>
-          </div>
-          <button
-            onClick={() => scrollToSection('#hero')}
-            className="flex items-center space-x-2 text-gold hover:text-gold-light transition-colors"
-            data-cursor="TOP"
-          >
-            <span>Back to Beginning</span>
-            <ArrowUp size={12} />
-          </button>
-        </div>
-
-        {/* Bottom Legal & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[10px] tracking-widest text-ivory/40 uppercase font-sans space-y-3 sm:space-y-0">
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-warm-400 space-y-3 sm:space-y-0">
           <div>
-            © {new Date().getFullYear()} ATELIER APARAJITA COUTURE (JSSG ENTERPRISES). ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} {STORE_INFO.name} (JSSG ENTERPRISES). All Rights Reserved.
           </div>
-          <div className="flex items-center space-x-6">
-            <span className="hover:text-ivory/70 cursor-pointer">Privacy & Discretion</span>
-            <span className="hover:text-ivory/70 cursor-pointer">Atelier Registry</span>
-            <span className="hover:text-ivory/70 cursor-pointer">Terms of Bespoke</span>
+
+          <div className="flex items-center space-x-6 text-[11px]">
+            <a href="#about-section" className="hover:text-cream-100 transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#about-section" className="hover:text-cream-100 transition-colors">
+              Terms & Conditions
+            </a>
+            <a href="#about-section" className="hover:text-cream-100 transition-colors">
+              Shipping & Returns
+            </a>
+            <button
+              onClick={scrollToTop}
+              className="flex items-center space-x-1 text-blush-300 hover:text-white transition-colors ml-2"
+              title="Back to Top"
+            >
+              <span>Top</span>
+              <ArrowUp size={12} />
+            </button>
           </div>
         </div>
       </div>

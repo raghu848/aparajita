@@ -69,21 +69,20 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Store Logo / Name */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center">
             <a
               href="#hero"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('all', 'all', 'hero');
               }}
-              className="flex flex-col group text-left"
+              className="flex items-center group py-0.5"
             >
-              <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-[0.15em] text-warm-900 group-hover:text-blush-600 transition-colors">
-                {STORE_INFO.name}
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.25em] text-warm-500 font-sans -mt-0.5">
-                {STORE_INFO.tagline}
-              </span>
+              <img
+                src="/images/logo.png"
+                alt="Aparajitaa Courturee Logo"
+                className="h-11 sm:h-13 md:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xs"
+              />
             </a>
           </div>
 
@@ -214,14 +213,20 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <div className="space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-warm-200">
-              <div>
-                <span className="font-serif text-2xl font-bold tracking-wider text-warm-900">
-                  {STORE_INFO.name}
-                </span>
-                <span className="block text-[10px] tracking-widest uppercase text-warm-500 font-sans">
-                  {STORE_INFO.tagline}
-                </span>
-              </div>
+              <a
+                href="#hero"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick('all', 'all', 'hero');
+                }}
+                className="flex items-center"
+              >
+                <img
+                  src="/images/logo.png"
+                  alt="Aparajitaa Courturee Logo"
+                  className="h-12 w-auto object-contain"
+                />
+              </a>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-1.5 text-warm-600 hover:text-warm-900"

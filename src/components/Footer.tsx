@@ -44,14 +44,20 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14 border-b border-warm-800 text-left">
           {/* Col 1: Brand & Bio (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="space-y-1">
-              <span className="font-serif text-2xl font-bold tracking-widest text-cream-50 block">
-                {STORE_INFO.name}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-blush-300 font-sans block">
-                {STORE_INFO.tagline}
-              </span>
-            </div>
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTop();
+              }}
+              className="inline-block group"
+            >
+              <img
+                src="/images/logo.png"
+                alt="Aparajitaa Courturee Logo"
+                className="h-16 sm:h-20 w-auto object-contain brightness-110 drop-shadow-md group-hover:scale-105 transition-transform"
+              />
+            </a>
 
             <p className="text-xs text-warm-300 leading-relaxed max-w-sm">
               Curated everyday elegance and home comfort. Specializing in women's western & heirloom ethnic wear, gentle organic kids essentials, and premium bed & bath textiles.

@@ -2,6 +2,8 @@ import { Product, CategoryCardInfo } from '../types/store';
 
 export const STORE_INFO = {
   name: 'APARAJITA',
+  brandFullName: 'APARAJITAA COURTUREE',
+  logoUrl: '/images/logo.png',
   tagline: 'Fashion & Home Living',
   phone: '+91 78892 76601',
   rawPhone: '7889276601',
